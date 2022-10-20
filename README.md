@@ -25,4 +25,4 @@ En Staging crear las tablas independientes respectivas y extraer los datos de to
     
 5.En el archivo "data.properties", cambiar a los parámetros correspondientes     
 
-4.Abrir el terminal y colocar el comando "python  .\py_startup.py". Es importante mencionar que en el archivo 'py_starup.py', están comentadas las tablas, y si se requiere probar alguna de forma individual, es necesario descomentar la requerida    
+6.Abrir el terminal y colocar el comando "python  .\py_startup.py". Es importante mencionar que en el archivo 'py_starup.py', están comentadas las tablas, y si se requiere probar alguna de forma individual, es necesario descomentar la requerida    
