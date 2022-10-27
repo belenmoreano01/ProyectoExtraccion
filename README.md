@@ -9,6 +9,8 @@ En Staging crear las tablas independientes respectivas y extraer los datos de to
 # Como ejecutar el proyecto
 1.Es necesario clonar el repositorio
 
+2.Escoger la Branch llamada Part2_Tran_Load
+
 2.Abrir la carpeta en Visual Studio Code
 
 3.Crear las dos tablas en MySQL (staging y sore), con los scripts subidos al repositorio en la carpeta "Base de datos MySQL"
@@ -23,6 +25,6 @@ En Staging crear las tablas independientes respectivas y extraer los datos de to
     
     Para instalarlas se puede hacer directamente desde el terminal con el comando "pip install <nombreLibrería>
     
-5.En el archivo "data.properties", cambiar a los parámetros correspondientes     
+5.En el archivo "sor.properties" y “stg.properties”, cambiar a los parámetros correspondientes    
 
 6.Abrir el terminal y colocar el comando "python  .\py_startup.py". Es importante mencionar que en el archivo 'py_starup.py', están comentadas las tablas, y si se requiere probar alguna de forma individual, es necesario descomentar la requerida    
