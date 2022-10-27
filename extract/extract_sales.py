@@ -1,30 +1,27 @@
 from util.db_connection import Db_Connection
+from util.properties import confStg,path
 import pandas as pd
 import traceback
-import configparser
-
-confP = configparser.ConfigParser()
-confP.read('data.properties')
-
-type = confP ['parametersMYSQL']['type']
-host =confP ['parametersMYSQL']['host']
-port = confP ['parametersMYSQL']['port']
-user = confP ['parametersMYSQL']['user']
-pwd = confP ['parametersMYSQL']['pwd']
-db = confP ['parametersMYSQL']['db']
-channel_conf = confP ['csv']['sales_csv']
-con_db_stg = Db_Connection(type, host, port, user, pwd, db)
-
+from datetime import datetime
 
 def ext_sales():
     try:
-   
+        
+        conf_stg=confStg()
+        ruta=path()
+        type = conf_stg['TYPE']
+        host = conf_stg['HOST']
+        port = conf_stg['PORT']
+        user = conf_stg['USER']
+        pwd = conf_stg['PASSWORD']
+        db = conf_stg['DATABASE']
+        
+        con_db_stg = Db_Connection(type,host,port,user,pwd,db)
         ses_db_stg = con_db_stg.start()
         if ses_db_stg == -1:
-            raise Exception (f"The give database type {type} is not valid")
+            raise Exception(f"The give database type {type} is not valid")
         elif ses_db_stg == -2:
-            raise Exception ("Error trying to connect to the b2b_dwh_staging")
-
+            raise Exception("Error trying connect to the database")
         #Dictionary for values 
         sales_dict = {
             "prod_id":[],
@@ -35,8 +32,8 @@ def ext_sales():
             "quantity_sold":[],
             "amount_sold":[]
         }
-        sales_csv = pd.read_csv(f'csvs/sales.csv')
-        #Process CSV Content
+        sales_csv = pd.read_csv(f'{ruta}sales.csv')
+        
         if not sales_csv.empty:
             for id,cuid,tiid,chid,proid,quso,amso \
                 in zip(sales_csv['PROD_ID'],sales_csv['CUST_ID'],

@@ -1,30 +1,25 @@
 from util.db_connection import Db_Connection
+from util.properties import confStg,path
 import pandas as pd
 import traceback
-import configparser
-
-confP = configparser.ConfigParser()
-confP.read('data.properties')
-
-type = confP ['parametersMYSQL']['type']
-host =confP ['parametersMYSQL']['host']
-port = confP ['parametersMYSQL']['port']
-user = confP ['parametersMYSQL']['user']
-pwd = confP ['parametersMYSQL']['pwd']
-db = confP ['parametersMYSQL']['db']
-channel_conf = confP ['csv']['countries_csv']
-con_db_stg = Db_Connection(type, host, port, user, pwd, db)
-
 
 def ext_countries():
     try:
-   
+        conf_stg=confStg()
+        ruta=path()
+        type = conf_stg['TYPE']
+        host = conf_stg['HOST']
+        port = conf_stg['PORT']
+        user = conf_stg['USER']
+        pwd = conf_stg['PASSWORD']
+        db = conf_stg['DATABASE']
+        
+        con_db_stg = Db_Connection(type,host,port,user,pwd,db)
         ses_db_stg = con_db_stg.start()
         if ses_db_stg == -1:
-            raise Exception (f"The give database type {type} is not valid")
+            raise Exception(f"The give database type {type} is not valid")
         elif ses_db_stg == -2:
-            raise Exception ("Error trying to connect to the b2b_dwh_staging")
-
+            raise Exception("Error trying connect to the database")
         #Dictionary for values
         countries_dict = {
             "country_id":[],
@@ -32,8 +27,8 @@ def ext_countries():
             "country_region":[],
             "country_region_id":[]
         }
-        countries_csv = pd.read_csv(f'csvs/countries.csv')
-        #Process CSV Content
+        countries_csv = pd.read_csv(f'{ruta}countries.csv')
+    
         if not countries_csv.empty:
             for id,nam,reg,reg_id \
                 in zip(countries_csv['COUNTRY_ID'],countries_csv['COUNTRY_NAME'],

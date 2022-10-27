@@ -1,30 +1,26 @@
 from util.db_connection import Db_Connection
+from util.properties import confStg,path
 import pandas as pd
 import traceback
-import configparser
-
-confP = configparser.ConfigParser()
-confP.read('data.properties')
-
-type = confP ['parametersMYSQL']['type']
-host =confP ['parametersMYSQL']['host']
-port = confP ['parametersMYSQL']['port']
-user = confP ['parametersMYSQL']['user']
-pwd = confP ['parametersMYSQL']['pwd']
-db = confP ['parametersMYSQL']['db']
-channel_conf = confP ['csv']['times_csv']
-con_db_stg = Db_Connection(type, host, port, user, pwd, db)
-
 
 def ext_times():
     try:
-   
+        
+        conf_stg=confStg()
+        ruta=path()
+        type = conf_stg['TYPE']
+        host = conf_stg['HOST']
+        port = conf_stg['PORT']
+        user = conf_stg['USER']
+        pwd = conf_stg['PASSWORD']
+        db = conf_stg['DATABASE']
+        
+        con_db_stg = Db_Connection(type,host,port,user,pwd,db)
         ses_db_stg = con_db_stg.start()
         if ses_db_stg == -1:
-            raise Exception (f"The give database type {type} is not valid")
+            raise Exception(f"The give database type {type} is not valid")
         elif ses_db_stg == -2:
-            raise Exception ("Error trying to connect to the b2b_dwh_staging")
-
+            raise Exception("Error trying connect to the database")
         #Dictionary for values 
         times_dict = {
             "time_id":[],
@@ -39,8 +35,8 @@ def ext_times():
             "calendar_quarter_desc":[],
             "calendar_year":[]
         }
-        times_csv = pd.read_csv(f'csvs/times.csv')
-        #Process CSV Content
+        times_csv = pd.read_csv(f'{ruta}times.csv')
+        
         if not times_csv.empty:
             for id,dname,dinweek,dinmo,caweek,camoin,camode,encamo,caqude,caye \
                 in zip(times_csv['TIME_ID'],times_csv['DAY_NAME'],

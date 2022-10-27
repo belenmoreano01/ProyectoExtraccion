@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine
-import traceback
 
 class Db_Connection():
     """
